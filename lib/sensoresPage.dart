@@ -37,11 +37,23 @@ Future<String> sendData() async{
  
   Future getdata() async{
     var response = await http.get(
-    Uri.https('fncgettelemetria.azurewebsites.net', 'api/telemetria'));
+    Uri.https('fncgetdatos-tecnoupsa.azurewebsites.net', 'api/telemetria01'));
     var jsonDatos = jsonDecode(response.body);
     List<Datos> datos = [];
     for(var u in jsonDatos){
-      Datos data = Datos(u['NameDevice'],u['Temperatura'],u['Humedad'],u['EventDateTime']);
+      Datos data = Datos(u['NameDevice'],u['Temperatura'],u['Humedad'],u['EventDateTime'],u['MicroServo'].toString(),u['Buzzer'].toString());
+       datos.add(data);
+    }
+    return datos;
+  }
+
+    Future getdata2() async{
+    var response = await http.get(
+    Uri.https('fncgetdatos-tecnoupsa.azurewebsites.net', 'api/telemetria02'));
+    var jsonDatos = jsonDecode(response.body);
+    List<Datos2> datos = [];
+    for(var u in jsonDatos){
+      Datos2 data = Datos2(u['NameDevice'],u['Temperatura'],u['Humedad'],u['EventDateTime'],u['BombaAgua'].toString(),u['Buzzer'].toString());
        datos.add(data);
     }
     return datos;
@@ -73,19 +85,20 @@ Future<String> sendData() async{
     super.dispose();
   }
 
-  int _indexActual = 0;
-
   @override
   Widget build(BuildContext context) {
 
-    return MaterialApp(
+return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.blueGrey[100],
           title: const Text('IoTHub - Telemetria'),
         ),
-       body: Container(
-         child: Card(child: FutureBuilder(
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+           Card(child: FutureBuilder(
            future: getdata(),
            builder: (context, snapshot){
              if(snapshot.data==null){
@@ -95,11 +108,16 @@ Future<String> sendData() async{
                );
              }else
               return ListView.builder(
+                shrinkWrap: true,
+                itemExtent: 100,
                 itemCount: snapshot.data.length,
                 itemBuilder: (context, i){
                   return ListTile(
                     title: Text(snapshot.data[i].NameDevice),
-                    subtitle: Text('Temperatura: ' + snapshot.data[i].Temperatura+'°C'+' Humedad: ' + snapshot.data[i].Humedad+'%'),
+                    subtitle: Text('Temperatura: ' + snapshot.data[i].Temperatura+'°C'
+                    +' Humedad: ' + snapshot.data[i].Humedad+'%'
+                    + "        Estado MicroServo: " + snapshot.data[i].MicroServo
+                    + "      Estado Buzzer: " + snapshot.data[i].Buzzer),
                     trailing: Text(snapshot.data[i].EventDateTime),
                   );
                 }
@@ -107,13 +125,47 @@ Future<String> sendData() async{
            },
          ),
          ),
-       ), 
+         Card(child: FutureBuilder(
+           future: getdata2(),
+           builder: (context, snapshot){
+             if(snapshot.data==null){
+               return Container(
+                 child: Center(child: Text('Cargando...'),
+                 ),
+               );
+             }else
+              return ListView.builder(
+                shrinkWrap: true,
+                itemExtent: 100,
+                itemCount: snapshot.data.length,
+                itemBuilder: (context, i){
+                  return ListTile(
+                    title: Text(snapshot.data[i].NameDevice2),
+                    subtitle: Text('Temperatura: ' + snapshot.data[i].Temperatura2+'°C'
+                    +' Humedad: ' + snapshot.data[i].Humedad2+'%'
+                    + "        Estado Bomba Agua: " + snapshot.data[i].BombaAgua
+                    + "      Estado Buzzer: " + snapshot.data[i].Buzzer2),
+                    trailing: Text(snapshot.data[i].EventDateTime2),
+                  );
+                }
+                );
+           },
+         ),
+         ),
+            ],
+          ),
+        ),
       ),
     );
   }
 }
 
 class Datos {
-  final String NameDevice, Temperatura, Humedad, EventDateTime;
-  Datos(this.NameDevice, this.Temperatura, this.Humedad, this.EventDateTime);
+  final String NameDevice, Temperatura, Humedad, EventDateTime, MicroServo, Buzzer;
+  Datos(this.NameDevice, this.Temperatura, this.Humedad, this.EventDateTime, this.MicroServo, this.Buzzer);
+}
+
+class Datos2 {
+  final String NameDevice2, Temperatura2, Humedad2, EventDateTime2, BombaAgua, Buzzer2;
+  Datos2(this.NameDevice2, this.Temperatura2, this.Humedad2, this.EventDateTime2, this.BombaAgua, this.Buzzer2);
 }
