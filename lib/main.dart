@@ -66,12 +66,12 @@ class _InicioState extends State<Inicio> {
            BottomNavigationBarItem(
              icon: Icon(Icons.waves),
              label: 'Sensores',
-             backgroundColor: Colors.blueGrey
+             backgroundColor: Colors.indigo
              ),
            BottomNavigationBarItem(
              icon: Icon(Icons.settings_applications),
              label: 'Actuadores',
-             backgroundColor: Colors.cyan
+             backgroundColor: Colors.lightGreen
              ),
            BottomNavigationBarItem(
              icon: Icon(Icons.grading_sharp),

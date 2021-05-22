@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'dart:math';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class controladorPage extends StatefulWidget {
   controladorPage({Key key}) : super(key: key);
@@ -8,12 +12,26 @@ class controladorPage extends StatefulWidget {
 }
 
 class _controladorPageState extends State<controladorPage> {
+  int numero=0;
+
+  Future<String> sendData(String nd, String m) async{
+    var response = await http.post(
+      Uri.encodeFull("https://apisenddevice.azurewebsites.net/api/data"),
+      headers: {"Content-Type":"application/json"},
+      body: jsonEncode(<String, dynamic>{
+        "NameDevice":nd,
+        "Mensaje":m})
+      );
+      print(response.body);
+    return response.body;
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.cyan[200],
+          backgroundColor: Colors.lightGreen[200],
           title: const Text('Controles'),
         ),
         body: Center(
@@ -24,50 +42,96 @@ class _controladorPageState extends State<controladorPage> {
               new Image.network('https://i2.wp.com/www.ecrobotics.com.bo/wp-content/uploads/2019/07/72369a74-59a4-4377-8180-0f4d3e3b7292.jpg',
               height: 200,
               width: 200),
-              new TextButton(
-                style: TextButton.styleFrom(
-                  backgroundColor: Colors.indigo[200],
+              new Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                new TextButton(
+                  style: TextButton.styleFrom(
+                  backgroundColor: Colors.green,
                   primary: Colors.white,
                   shadowColor: Colors.black,
                   elevation: 5,
                   shape: const BeveledRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5))),
-                  minimumSize: Size(250,50),   	
+                  minimumSize: Size(150,35),   	
                   textStyle: TextStyle(
                     color: Colors.black,
                     fontSize: 25,
                   ), 
                 ),
                 onPressed: (){
-
+                  sendData("ESP-02","on");
                 },
-                child: new Text("Encender/Apagar")
+                child: new Text("Encender")
+              ),
+              new TextButton(
+                style: TextButton.styleFrom(
+                  backgroundColor: Colors.red,
+                  primary: Colors.white,
+                  shadowColor: Colors.black,
+                  elevation: 5,
+                  shape: const BeveledRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5))),
+                  minimumSize: Size(150,35),   	
+                  textStyle: TextStyle(
+                    color: Colors.black,
+                    fontSize: 25,
+                  ), 
+                ),
+                onPressed: (){
+                  sendData("ESP-02","off");
+                },
+                child: new Text("Apagar")
+              ),
+                ],
               ),
               Divider(
-                height: 50,
+                height: 10,
                 thickness: 0,
                 color: Colors.white,
               ),
               new Image.network('https://www.aranacorp.com/wp-content/uploads/towerpro-servo-sg90.jpg',
               height: 200,
               width: 200),
+              new Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
               new TextButton(
                 style: TextButton.styleFrom(
-                  backgroundColor: Colors.indigo[200],
+                  backgroundColor: Colors.green,
                   primary: Colors.white,
                   shadowColor: Colors.black,
                   elevation: 5,
                   shape: const BeveledRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5))),
-                  minimumSize: Size(250,50),   	
+                  minimumSize: Size(150,35),   	
                   textStyle: TextStyle(
                     color: Colors.black,
                     fontSize: 25,
                   ), 
                 ),
                 onPressed: (){
-
+                  sendData("ESP-01","on");
                 },
-                child: new Text("Encender/Apagar")
+                child: new Text("Encender")
               ),
+              new TextButton(
+                style: TextButton.styleFrom(
+                  backgroundColor: Colors.red,
+                  primary: Colors.white,
+                  shadowColor: Colors.black,
+                  elevation: 5,
+                  shape: const BeveledRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5))),
+                  minimumSize: Size(150,35),   	
+                  textStyle: TextStyle(
+                    color: Colors.black,
+                    fontSize: 25,
+                  ), 
+                ),
+                onPressed: (){
+                  sendData("ESP-01","off");
+                },
+                child: new Text("Apagar")
+              ),]
+              ),
+
             ],
           ),
         ),
