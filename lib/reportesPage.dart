@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-const _url = 'https://app.powerbi.com/links/pwucf02_lP?ctid=5de44bb7-d2e6-4877-bb05-7b13327bd039&pbi_source=linkShare';
+const _url = 'https://app.powerbi.com/links/cE2sLYCTX3?ctid=5de44bb7-d2e6-4877-bb05-7b13327bd039&pbi_source=linkShare';
 
 class reportesPage extends StatefulWidget {
   reportesPage({Key key}) : super(key: key);
