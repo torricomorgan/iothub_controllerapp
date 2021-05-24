@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'dart:math';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
@@ -39,6 +37,7 @@ class _controladorPageState extends State<controladorPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
+              new Text ('Bomba de Agua'),
               new Image.network('https://i2.wp.com/www.ecrobotics.com.bo/wp-content/uploads/2019/07/72369a74-59a4-4377-8180-0f4d3e3b7292.jpg',
               height: 200,
               width: 200),
@@ -52,7 +51,7 @@ class _controladorPageState extends State<controladorPage> {
                   shadowColor: Colors.black,
                   elevation: 5,
                   shape: const BeveledRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5))),
-                  minimumSize: Size(150,35),   	
+                  minimumSize: Size(150,25),   	
                   textStyle: TextStyle(
                     color: Colors.black,
                     fontSize: 25,
@@ -60,6 +59,23 @@ class _controladorPageState extends State<controladorPage> {
                 ),
                 onPressed: (){
                   sendData("ESP-02","on");
+                  showDialog(context: context,
+                  barrierDismissible: false, 
+                  builder: (context)=> AlertDialog(
+                    title: Text('Confirmación'),
+                    content: Text('Accion registrada, espere 5 seg. por favor'),
+                    actions: <Widget>[
+                      TextButton(
+                        child: Text('Ok'),
+                        onPressed: (){
+                        Future.delayed(Duration(milliseconds: 3000), () {
+                          Navigator.of(context).pop('Ok');
+                         }); 
+                        },
+                      ),
+                    ],
+                  )
+                  );
                 },
                 child: new Text("Encender")
               ),
@@ -70,7 +86,7 @@ class _controladorPageState extends State<controladorPage> {
                   shadowColor: Colors.black,
                   elevation: 5,
                   shape: const BeveledRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5))),
-                  minimumSize: Size(150,35),   	
+                  minimumSize: Size(150,25),   	
                   textStyle: TextStyle(
                     color: Colors.black,
                     fontSize: 25,
@@ -78,16 +94,34 @@ class _controladorPageState extends State<controladorPage> {
                 ),
                 onPressed: (){
                   sendData("ESP-02","off");
+                  showDialog(context: context, 
+                  barrierDismissible: false,
+                  builder: (context)=> AlertDialog(
+                    title: Text('Confirmación'),
+                    content: Text('Accion registrada, espere 5 seg. por favor'),
+                    actions: <Widget>[
+                      TextButton(
+                        child: Text('Ok'),
+                        onPressed: (){
+                        Future.delayed(Duration(milliseconds: 3000), () {
+                          Navigator.of(context).pop('Ok');
+                         }); 
+                        },
+                      ),
+                    ],
+                  )
+                  );
                 },
                 child: new Text("Apagar")
               ),
                 ],
               ),
               Divider(
-                height: 10,
+                height: 15,
                 thickness: 0,
                 color: Colors.white,
               ),
+              new Text ('Cinta Transportadora (Servo)'),
               new Image.network('https://www.aranacorp.com/wp-content/uploads/towerpro-servo-sg90.jpg',
               height: 200,
               width: 200),
@@ -101,7 +135,7 @@ class _controladorPageState extends State<controladorPage> {
                   shadowColor: Colors.black,
                   elevation: 5,
                   shape: const BeveledRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5))),
-                  minimumSize: Size(150,35),   	
+                  minimumSize: Size(150,25),   	
                   textStyle: TextStyle(
                     color: Colors.black,
                     fontSize: 25,
@@ -109,6 +143,23 @@ class _controladorPageState extends State<controladorPage> {
                 ),
                 onPressed: (){
                   sendData("ESP-01","on");
+                  showDialog(context: context, 
+                  barrierDismissible: false,
+                  builder: (context)=> AlertDialog(
+                    title: Text('Confirmación'),
+                    content: Text('Accion registrada, espere 5 seg. por favor'),
+                    actions: <Widget>[
+                      TextButton(
+                        child: Text('Ok'),
+                        onPressed: (){
+                        Future.delayed(Duration(milliseconds: 3000), () {
+                          Navigator.of(context).pop('Ok');
+                         }); 
+                        },
+                      ),
+                    ],
+                  )
+                  );
                 },
                 child: new Text("Encender")
               ),
@@ -119,7 +170,7 @@ class _controladorPageState extends State<controladorPage> {
                   shadowColor: Colors.black,
                   elevation: 5,
                   shape: const BeveledRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5))),
-                  minimumSize: Size(150,35),   	
+                  minimumSize: Size(150,25),   	
                   textStyle: TextStyle(
                     color: Colors.black,
                     fontSize: 25,
@@ -127,6 +178,23 @@ class _controladorPageState extends State<controladorPage> {
                 ),
                 onPressed: (){
                   sendData("ESP-01","off");
+                  showDialog(context: context, 
+                  barrierDismissible: false,
+                  builder: (context)=> AlertDialog(
+                    title: Text('Confirmación'),
+                    content: Text('Accion registrada, espere 5 seg. por favor'),
+                    actions: <Widget>[
+                      TextButton(
+                        child: Text('Ok'),
+                        onPressed: (){
+                        Future.delayed(Duration(milliseconds: 3000), () {
+                          Navigator.of(context).pop('Ok');
+                         }); 
+                        },
+                      ),
+                    ],
+                  )
+                  );
                 },
                 child: new Text("Apagar")
               ),]
